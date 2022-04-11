@@ -28,7 +28,30 @@ namespace WindowsFormsApp1
         }
         private void Listen()
         {
-
+            int Port = int.Parse(textBox_listen_Port.Text);
+            U = new UdpClient(Port);
+            // 建立畚箕端點資訊
+            IPEndPoint EP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), Port);
+            while (true)
+            {
+                byte[] B = U.Receive(ref EP);
+                string A = Encoding.Default.GetString(B); //翻譯字串為陣列A
+                string[] Q = A.Split('/');
+                Point[] R = new Point[Q.Length];
+                for(int i = 0; i < Q.Length; i++)
+                {
+                    string[] K = Q[i].Split(',');
+                    R[i].X = int.Parse(K[0]);
+                    R[i].Y = int.Parse(K[1]);
+                }
+                for (int i = 0; i < Q.Length - 1; i++)
+                {
+                    LineShape L = new LineShape();
+                    L.StartPoint = R[i];
+                    L.EndPoint = R[i + 1];
+                    L.Parent = D;
+                }
+            }
         }
         private void button_connect_Click(object sender, EventArgs e)
         {
@@ -82,7 +105,11 @@ namespace WindowsFormsApp1
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-
+            int Port = int.Parse(textBox_target_Port.Text);
+            UdpClient S = new UdpClient(textBox_target_IP.Text,Port);
+            byte[] B = Encoding.Default.GetBytes(p);
+            S.Send(B, B.Length);
+            S.Close();
         }
     }
 }
