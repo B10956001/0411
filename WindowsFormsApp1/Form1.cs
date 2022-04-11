@@ -68,12 +68,21 @@ namespace WindowsFormsApp1
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            LineShape L = new LineShape(); //建立線段物件
-            L.StartPoint = stP; //線段起點
-            L.EndPoint = e.Location; //線段終點
-            L.Parent = C; //線段加入畫布C
-            stP = e.Location; //終點變起點
-            p += "/" + stP.X.ToString() + "," + stP.Y.ToString(); //持續記錄座標
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                LineShape L = new LineShape(); //建立線段物件
+                L.StartPoint = stP; //線段起點
+                L.EndPoint = e.Location; //線段終點
+                L.Parent = C; //線段加入畫布C
+                stP = e.Location; //終點變起點
+                p += "/" + stP.X.ToString() + "," + stP.Y.ToString(); //持續記錄座標
+            }
+            
+        }
+
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
